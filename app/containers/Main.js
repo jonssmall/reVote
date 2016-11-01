@@ -1,20 +1,29 @@
 var React = require('react');
 var Link = require('react-router').Link;
+var auth = require('../helpers/authHelpers');
 
 function Login (props) {
-    var Login = 
-        <Link to='login' style={{textDecoration:'none'}}>                  
-            <span className="mdl-navigation__link">Login</span>
-        </Link>;
-    var Logout = <a className="mdl-navigation__link" href="">Logout</a>;
+    const Login = <a className="mdl-navigation__link" href="/auth/github">Login</a>;        
+    const Logout = <a className="mdl-navigation__link" href="/logout">Logout</a>;
     return props.signedOn ? Logout : Login; 
 }
 
 var Main = React.createClass({
-    getInitialState: function () {
+    getInitialState: function() {
         return {
             signedOn: false,            
         }
+    },
+    componentDidMount: function() {
+        console.log('booting up');        
+        auth.isSignedOn()
+            .then(result => {
+                if(result.data) {
+                    this.setState({
+                        signedOn: result.data
+                    });
+                }
+            })        
     },
     render: function () {
         return (

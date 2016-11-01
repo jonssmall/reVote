@@ -1,6 +1,6 @@
 'use strict';
 
-var path = process.cwd();
+let path = process.cwd();
 // var ClickHandler = require(path + '/server/controllers/serverClicks.js');
 
 module.exports = function (app, passport) {
@@ -16,7 +16,7 @@ module.exports = function (app, passport) {
 	// var clickHandler = new ClickHandler();
 
 	app.route('/')
-		.get(function (req, res) {
+		.get((req, res) => {
 			res.sendFile(path + '/app/index.html');
 		});
 
@@ -28,8 +28,13 @@ module.exports = function (app, passport) {
 	app.route('/logout')
 		.get(function (req, res) {
 			req.logout();
-			res.redirect('/login');
+			res.redirect('/');
 		});
+
+    app.route('/signedOn')
+        .get(function(req, res) {
+            res.send(req.isAuthenticated());
+        })
 
 	app.route('/profile')
 		.get(isLoggedIn, function (req, res) {
@@ -47,7 +52,7 @@ module.exports = function (app, passport) {
 	app.route('/auth/github/callback')
 		.get(passport.authenticate('github', {
 			successRedirect: '/',
-			failureRedirect: '/login'
+			failureRedirect: '/'
 		}));
 
 	// app.route('/api/:id/clicks')

@@ -1,21 +1,21 @@
 'use strict';
 
 var express = require('express');
-var routes = require('./app/routes/index.js');
+var routes = require('./server/routes/index.js');
+var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 var passport = require('passport');
 var session = require('express-session');
 
 var app = express();
 require('dotenv').load();
-require('./app/config/passport')(passport);
+require('./server/config/passport')(passport);
 
 mongoose.connect(process.env.MONGO_URI);
 mongoose.Promise = global.Promise;
 
-app.use('/controllers', express.static(process.cwd() + '/app/controllers'));
-app.use('/public', express.static(process.cwd() + '/public'));
-app.use('/common', express.static(process.cwd() + '/app/common'));
+app.use(bodyParser.json());
+app.use('/app', express.static(process.cwd() + '/app'));
 
 app.use(session({
 	secret: 'secretClementine',

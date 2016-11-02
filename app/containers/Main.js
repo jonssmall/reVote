@@ -8,6 +8,11 @@ function Login (props) {
     return props.signedOn ? Logout : Login; 
 }
 
+function Profile(props) {
+    const url = props.signedOn ? "#/profile" : "/auth/github?target=profile";
+    return <a className="mdl-navigation__link" href={url}>Profile</a>;
+}
+
 var Main = React.createClass({
     getInitialState: function() {
         return {
@@ -33,7 +38,8 @@ var Main = React.createClass({
                     <span className="mdl-layout-title">reVote</span>      
                     <div className="mdl-layout-spacer"></div>      
                     <nav className="mdl-navigation mdl-layout--large-screen-only">
-                        <Login signedOn={this.state.signedOn}/>                                                
+                        <Login signedOn={this.state.signedOn}/>
+                        <Profile signedOn={this.state.signedOn}/>                                                
                     </nav>
                 </div>
             </header>

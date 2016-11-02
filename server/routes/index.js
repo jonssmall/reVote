@@ -45,15 +45,24 @@ module.exports = function (app, passport) {
 		.get(isLoggedIn, function (req, res) {
 			res.json(req.user.github);
 		});
-
+        
 	app.route('/auth/github')
-		.get(passport.authenticate('github'));
+		.get(function(req, res) {
+            //forwarding unauthorized user to intended view
+            //how to limit this to a single user's auth flow rather than server global?
+            if (req.query.target) app.locals.target = req.query.target
+            passport.authenticate('github')(req, res);
+        });                    
 
-	app.route('/auth/github/callback')
-		.get(passport.authenticate('github', {
-			successRedirect: '/',
-			failureRedirect: '/'
-		}));
+    app.route('/auth/github/callback')
+		.get(function(req, res) {            
+            const redirect = app.locals.target ? '/#/' + app.locals.target : '/' 
+            app.locals.target = null;
+            passport.authenticate('github', {
+                successRedirect: redirect,
+                failureRedirect: redirect //how to handle failure
+            })(req, res);
+        });
 
 	// app.route('/api/:id/clicks')
 	// 	.get(isLoggedIn, clickHandler.getClicks)

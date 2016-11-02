@@ -1,4 +1,5 @@
 var React = require('react');
+var Profile = require('../components/Profile');
 var auth = require('../helpers/authHelpers');
 
 var ProfileContainer = React.createClass({
@@ -23,8 +24,8 @@ var ProfileContainer = React.createClass({
     },
     render: function () {
         return (
-            <div>
-                <h1>Welcome {this.state.displayName}</h1>
+            <div>                
+                <Profile displayName={this.state.displayName} />
             </div>
         )
     }

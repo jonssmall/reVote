@@ -28,7 +28,7 @@ var Main = React.createClass({
                         signedOn: result.data
                     });
                 }
-            })        
+            });    
     },
     render: function () {
         return (

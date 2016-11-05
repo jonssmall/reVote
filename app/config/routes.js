@@ -4,10 +4,14 @@ var Router = ReactRouter.Router;
 var Route = ReactRouter.Route;
 var hashHistory = ReactRouter.hashHistory;
 var IndexRoute = ReactRouter.IndexRoute;
+var auth = require('../helpers/authHelpers');
 var Main = require('../containers/Main');
 var HomeContainer = require('../containers/HomeContainer');
 var ProfileContainer = require('../containers/ProfileContainer');
-var auth = require('../helpers/authHelpers');
+var PollsContainer = require('../containers/PollsContainer');
+var PollContainer = require('../containers/PollContainer');
+var NewPollContainer = require('../containers/NewPollContainer');
+
 
 function requireAuth (nextState, replace, callback) {
     auth.isSignedOn()
@@ -29,6 +33,10 @@ var routes = (
     <Route path='/' component={Main}>        
       <IndexRoute component={HomeContainer} />
       <Route path='profile' component={ProfileContainer} onEnter={requireAuth}/>
+      <Route path='polls' component={PollsContainer}>
+        <Route path='new' component={NewPollContainer} onEnter={requireAuth} />
+        <Route path=':id' component={PollContainer} />        
+      </Route>
     </Route>
   </Router>
 );

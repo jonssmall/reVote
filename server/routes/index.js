@@ -57,7 +57,7 @@ module.exports = function (app, passport) {
             })(req, res);
         });
     
-    app.route('/api/polls/')        
-        .post(isLoggedIn, pollAccess.addPoll)
-        //.get(pollAccess.getPolls);
+    app.route('/api/polls/')
+        .get(pollAccess.getPolls)
+        .post(isLoggedIn, pollAccess.addPoll);        
 };

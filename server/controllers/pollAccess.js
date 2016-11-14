@@ -23,6 +23,21 @@ function addPoll (req, res) {
     });
 };
 
+function getPolls (req, res) {        
+    Users.find({}, function(err, users) {
+        if (err) throw err;
+        var polls = [];
+        //console.log(users);
+        users.map(function(user) {
+            user.polls.map(function(poll) {
+                polls.push(poll);
+            });
+        });
+        res.json(polls)
+    });
+};
+
 module.exports = {
-    addPoll: addPoll    
+    addPoll: addPoll,
+    getPolls: getPolls    
 };

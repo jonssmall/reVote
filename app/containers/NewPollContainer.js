@@ -25,7 +25,10 @@ function NewPoll (props) {
                     <label className="mdl-textfield__label" htmlFor="title">Title</label>                    
                 </div>         
                 {options}                                       
-            </form>            
+            </form>
+            <button onClick={props.newOption} className="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">
+                New Option
+            </button>      
         </div>
     )
 }
@@ -75,10 +78,24 @@ var NewPollContainer = React.createClass({
                 options: newOptions
             })
         }
-        console.log(this.state);      
-    },        
+        console.log(this.state);          
+    },
+    handleNewOption: function() {
+        let newOptions = this.state.options;
+        let counter = Object.keys(newOptions).length;
+        counter++;        
+        newOptions[`Option${counter}`] = '';
+        console.log(newOptions);
+        this.setState({
+            options: newOptions
+        })
+    }, 
     render: function () {
-        return <NewPoll onUpdate={this.handleUpdate} title={this.state.title} options={this.state.options} />
+        return <NewPoll 
+                onUpdate={this.handleUpdate} 
+                title={this.state.title} 
+                options={this.state.options}
+                newOption={this.handleNewOption} />
     }
 });
 

@@ -3,3 +3,4 @@ dist/
 .DS_store
 .env
 app/index.js
+npm-debug.log

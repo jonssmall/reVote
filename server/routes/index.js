@@ -1,6 +1,7 @@
 'use strict';
 
 let path = process.cwd();
+let pollAccess = require('../controllers/pollAccess')
 
 module.exports = function (app, passport) {
 
@@ -56,16 +57,7 @@ module.exports = function (app, passport) {
             })(req, res);
         });
     
-    app.route('/api/polls/')
-        .get(function(req,res) {
-            //todo: retrieve every user's polls to display on index view
-        })
-        .post(function(req,res) {
-            console.log(req.body);
-        });
-
-	// app.route('/api/:id/clicks')
-	// 	.get(isLoggedIn, clickHandler.getClicks)
-	// 	.post(isLoggedIn, clickHandler.addClick)
-	// 	.delete(isLoggedIn, clickHandler.resetClicks);
+    app.route('/api/polls/')        
+        .post(isLoggedIn, pollAccess.addPoll)
+        //.get(pollAccess.getPolls);
 };

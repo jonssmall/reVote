@@ -1,31 +1,37 @@
 var React = require('react');
 
 function NewPoll (props) {
+    var options = [];
+    for (var option in props.options) {
+        options.push(<Option key={option} name={option} />);
+    }
     return (
         <div>
             <form>
                 <div className="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
                     <input 
-                        onChange={props.onUpdate.bind(null, 'test')}
+                        onChange={props.onUpdate.bind(null, 'title')}
                         value={props.title}
                         className="mdl-textfield__input" 
                         type="text" 
                         id="title" />
                     <label className="mdl-textfield__label" htmlFor="title">Title</label>                    
-                </div>
-                <br />
-                <div className="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-                    <input className="mdl-textfield__input" type="text" id="option1"/>
-                    <label className="mdl-textfield__label" htmlFor="option1">Option1</label>                    
-                </div>
-                <br />
-                <div className="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-                    <input className="mdl-textfield__input" type="text" id="option2"/>
-                    <label className="mdl-textfield__label" htmlFor="option2">Option2</label>                    
-                </div>                     
+                </div>         
+                {options}                                       
             </form>            
         </div>
     )
+}
+
+function Option(props) {
+    return (
+        <div>            
+            <div className="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                <input className="mdl-textfield__input" type="text" id={props.name}/>
+                <label className="mdl-textfield__label" htmlFor={props.name}>{props.name}</label>                    
+            </div>
+        </div>
+    )    
 }
 
 var NewPollContainer = React.createClass({
@@ -36,8 +42,8 @@ var NewPollContainer = React.createClass({
         return {
             title: '',
             options: {
-                option1: '',
-                option2: ''
+                Option1: '',
+                Option2: ''
             }
         }
     },

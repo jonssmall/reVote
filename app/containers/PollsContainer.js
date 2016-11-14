@@ -1,13 +1,10 @@
 var React = require('react');
-
-var polls = <div>
-                <p>Polls Container</p>                
-            </div>;
+var Polls = require('../components/Polls')
 
 var PollsContainer = React.createClass({    
     render: function () {
         return (
-            this.props.children || polls                        
+            this.props.children || <Polls/>                    
         )
     }
 });

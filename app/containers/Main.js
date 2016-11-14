@@ -13,6 +13,11 @@ function Profile(props) {
     return <a className="mdl-navigation__link" href={url}>Profile</a>;
 }
 
+function Polls(props) {
+    const url = "#/polls";
+    return <a className="mdl-navigation__link" href={url}>Polls</a>;
+}
+
 var Main = React.createClass({
     getInitialState: function() {
         return {
@@ -38,6 +43,7 @@ var Main = React.createClass({
                     <span className="mdl-layout-title">reVote</span>      
                     <div className="mdl-layout-spacer"></div>      
                     <nav className="mdl-navigation mdl-layout--large-screen-only">
+                        <Polls />
                         <Login signedOn={this.state.signedOn}/>
                         <Profile signedOn={this.state.signedOn}/>                                                
                     </nav>

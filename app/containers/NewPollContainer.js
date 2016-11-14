@@ -1,4 +1,5 @@
 var React = require('react');
+var api = require('../helpers/pollHelpers');
 
 function NewPoll (props) {
     var options = [];
@@ -24,11 +25,14 @@ function NewPoll (props) {
                         id="title" />
                     <label className="mdl-textfield__label" htmlFor="title">Title</label>                    
                 </div>         
-                {options}                                       
-            </form>
-            <button onClick={props.newOption} className="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">
-                New Option
-            </button>      
+                {options}
+                <button onClick={props.newOption} className="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">
+                    New Option
+                </button>
+                <button onClick={props.onSubmit} className="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">
+                    Create Poll
+                </button>                                       
+            </form>             
         </div>
     )
 }
@@ -63,8 +67,7 @@ var NewPollContainer = React.createClass({
         }
     },
     handleSubmit: function() {
-        //console.log(this.state.city);
-        //this.context.router.push('/forecast/' + this.state.city)       
+        api.createPoll(this.state);
     },
     handleUpdate: function(name, e){      
         if(name == "title") {
@@ -76,9 +79,8 @@ var NewPollContainer = React.createClass({
             newOptions[name] = e.target.value;
             this.setState({
                 options: newOptions
-            })
-        }
-        console.log(this.state);          
+            });
+        }              
     },
     handleNewOption: function() {
         let newOptions = this.state.options;
@@ -88,11 +90,12 @@ var NewPollContainer = React.createClass({
         console.log(newOptions);
         this.setState({
             options: newOptions
-        })
+        });
     }, 
     render: function () {
         return <NewPoll 
-                onUpdate={this.handleUpdate} 
+                onUpdate={this.handleUpdate}
+                onSubmit={this.handleSubmit} 
                 title={this.state.title} 
                 options={this.state.options}
                 newOption={this.handleNewOption} />

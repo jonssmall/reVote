@@ -55,6 +55,14 @@ module.exports = function (app, passport) {
                 failureRedirect: redirect //how to handle failure
             })(req, res);
         });
+    
+    app.route('/api/polls/')
+        .get(function(req,res) {
+            //todo: retrieve every user's polls to display on index view
+        })
+        .post(function(req,res) {
+            console.log(req.body);
+        });
 
 	// app.route('/api/:id/clicks')
 	// 	.get(isLoggedIn, clickHandler.getClicks)

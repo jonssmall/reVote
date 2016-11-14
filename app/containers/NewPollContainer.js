@@ -66,8 +66,13 @@ var NewPollContainer = React.createClass({
             }
         }
     },
-    handleSubmit: function() {
-        api.createPoll(this.state);
+    handleSubmit: function(e) {
+        e.preventDefault();
+        api.createPoll(this.state)
+            .then(result => {
+                console.log(result);
+                this.context.router.push(`/polls/${result.data._id}`)
+            });
     },
     handleUpdate: function(name, e){      
         if(name == "title") {

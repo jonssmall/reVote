@@ -18,7 +18,7 @@ function addPoll (req, res) {
         user.polls.push(newPoll);
         user.save(function (err, updatedUser) {
             if (err) throw err;
-            res.send(updatedUser);
+            res.send(updatedUser.polls.pop()); //cleaner way to show just the new poll?
         });
     });
 };

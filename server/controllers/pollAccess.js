@@ -26,8 +26,7 @@ function addPoll (req, res) {
 function getPolls (req, res) {        
     Users.find({}, function(err, users) {
         if (err) throw err;
-        var polls = [];
-        //console.log(users);
+        var polls = [];        
         users.map(function(user) {
             user.polls.map(function(poll) {
                 polls.push(poll);
@@ -37,7 +36,19 @@ function getPolls (req, res) {
     });
 };
 
+function getPoll (req, res) {            
+    Users.findOne({'polls': {$elemMatch: {_id: req.params.id}}}, function (err, user) {
+        if (err) throw err;        
+        //redundancy is a side effect of nesting polls directly in User schema.
+        var poll = user.polls.find(function(el) {
+            return el.id == req.params.id
+        });
+        res.json(poll);
+    });
+};
+
 module.exports = {
     addPoll: addPoll,
-    getPolls: getPolls    
+    getPolls: getPolls,
+    getPoll: getPoll 
 };

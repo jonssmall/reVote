@@ -14,15 +14,18 @@ var PollContainer = React.createClass({
         }
     },
     componentDidMount: function() {
-        api.getPoll(this.props.routeParams.id)
-        .then(result => {
-            console.log(result);
-            if(result) {
-                this.setState({
-                    poll: result.data
-                });
-            }
-        });                       
+        this.callPoll(this.props.routeParams.id);
+    },
+    componentWillReceiveProps: function(nextprops) {                
+        this.callPoll(nextprops.routeParams.id);
+    },
+    callPoll: function(id) {
+        api.getPoll(id)
+        .then(result => {            
+            this.setState({
+                poll: result ? result.data : undefined
+            });
+        });
     },
     render: function () {
         return this.state.poll? <Poll /> : <p>Poll Not Found </p>;

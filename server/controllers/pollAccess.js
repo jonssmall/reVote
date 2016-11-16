@@ -36,15 +36,19 @@ function getPolls (req, res) {
     });
 };
 
-function getPoll (req, res) {            
-    Users.findOne({'polls': {$elemMatch: {_id: req.params.id}}}, function (err, user) {
-        if (err) throw err;        
-        //redundancy is a side effect of nesting polls directly in User schema.
-        var poll = user.polls.find(function(el) {
-            return el.id == req.params.id
+function getPoll (req, res) {
+    if(req.params.id.match(/^[0-9a-fA-F]{24}$/)) {
+        Users.findOne({'polls': {$elemMatch: {_id: req.params.id}}}, function (err, user) {
+            if (err) throw err;        
+            //redundancy is a side effect of nesting polls directly in User schema.
+            var poll = user.polls.find(function(el) {
+                return el.id == req.params.id
+            });
+            res.json(poll);
         });
-        res.json(poll);
-    });
+    } else {
+        res.status(500).send('Invalid Poll ID');
+    }       
 };
 
 module.exports = {

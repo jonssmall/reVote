@@ -2,7 +2,7 @@ var React = require('react');
 var Link = require('react-router').Link;
 
 function Polls (props) {
-    var pollsArray = props.pollData.map(function(poll) {
+    var pollsArray = props.pollsData.map(function(poll) {
         return (
             <div key={poll._id}>
                 <Link to={`/polls/${poll._id}`}>{poll.title}</Link>

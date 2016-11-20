@@ -23,7 +23,7 @@ var PollsContainer = React.createClass({
     },
     render: function () {
         return ( //how to prevent redundant /api/polls calls
-            this.props.children || <Polls pollData={this.state.polls} />                    
+            this.props.children || <Polls pollsData={this.state.polls} />                    
         )
     }
 });

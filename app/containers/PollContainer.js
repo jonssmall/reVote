@@ -21,7 +21,8 @@ var PollContainer = React.createClass({
     },
     callPoll: function(id) {
         api.getPoll(id)
-        .then(result => {            
+        .then(result => {
+            console.log(result);        
             this.setState({
                 poll: result ? result.data : undefined
             });

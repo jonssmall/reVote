@@ -13,17 +13,17 @@ var PollsContainer = React.createClass({
             api.getPolls()
             .then(result => {
                 console.log(result);
-                // if(result.data) {
-                //     this.setState({
-                //         polls: result.data
-                //     });
-                // }
+                if(result.data) {
+                    this.setState({
+                        polls: result.data
+                    });
+                }
             });
         }                    
     },
     render: function () {
         return ( //how to prevent redundant /api/polls calls
-            this.props.children || <Polls/>                    
+            this.props.children || <Polls pollData={this.state.polls} />                    
         )
     }
 });

@@ -2,12 +2,22 @@ var React = require('react');
 var Link = require('react-router').Link;
 
 function Polls (props) {
-     return (
+    var pollsArray = props.pollData.map(function(poll) {
+        return (
+            <div key={poll._id}>
+                <Link to={`/polls/${poll._id}`}>{poll.title}</Link>
+            </div>
+        );
+    });
+    
+    return (
         <div>
-            <p>Polls</p>
+            <h1>Polls</h1>
+            {pollsArray}
+            <br/>
             <Link to="/polls/new">New Poll</Link>
         </div>
-     )
+    )
 }
 
 module.exports = Polls;

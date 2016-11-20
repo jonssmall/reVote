@@ -40,16 +40,22 @@ var PollContainer = React.createClass({
             });
         });
     },
-    handleVote: function(id, e) {        
-        var newPoll = this.state.poll;
-        var newOptions = newPoll.options;
-        newOptions.map(function(option) {
-            if (option._id == id) option.votes++;
+    handleVote: function(id, e) {   
+        // var newPoll = this.state.poll;
+        // var newOptions = newPoll.options;
+        // newOptions.map(function(option) {
+        //     if (option._id == id) option.votes++;
+        // });        
+        // newPoll.options = newOptions;
+        api.incrementVote(this.state.poll._id, id)
+        .then(result => {
+            console.log(result);
+            if (result.data) {
+                this.setState({
+                    poll: result.data
+                });
+            }
         });        
-        newPoll.options = newOptions;
-        this.setState({
-            poll: newPoll
-        });
     },
     render: function () {
         return this.state.poll? <Poll vote={this.handleVote} pollData={this.state.poll}/> : <p>Poll Not Found </p>;

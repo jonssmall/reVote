@@ -32,8 +32,18 @@ function deletePoll() {
     //todo
 }
 
+function incrementVote (pollId, optionId) {      
+    return axios.get(`/api/polls/${pollId}/options/${optionId}`)
+        .then(response => {
+            return response
+        }).catch(error => {
+            console.log(error);
+        });
+}
+
 module.exports = {
     getPolls: getPolls,
     getPoll: getPoll,
-    createPoll: createPoll
+    createPoll: createPoll,
+    incrementVote: incrementVote
 };

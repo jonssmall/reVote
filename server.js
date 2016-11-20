@@ -8,6 +8,7 @@ var passport = require('passport');
 var session = require('express-session');
 
 var app = express();
+var router = express.Router({mergeParams: true});
 require('dotenv').load();
 require('./server/config/passport')(passport);
 
@@ -16,6 +17,7 @@ mongoose.Promise = global.Promise;
 
 app.use(bodyParser.json());
 app.use('/app', express.static(process.cwd() + '/app'));
+app.use(router);
 
 app.use(session({
 	secret: 'secretClementine',

@@ -48,11 +48,37 @@ function getPoll (req, res) {
         });
     } else {
         res.status(500).send('Invalid Poll ID');
-    }       
+    }
+};
+
+function incrementVote (req, res) {
+    // req.params.pollId, req.params.optionId
+    if(req.params.pollId.match(/^[0-9a-fA-F]{24}$/)) {
+        Users.findOne({'polls': {$elemMatch: {_id: req.params.pollId}}}, function (err, user) {
+            if (err) throw err;        
+            //redundancy is a side effect of nesting polls directly in User schema.
+            var poll = user.polls.find(function(el) {
+                return el.id == req.params.pollId;
+            });
+            //res.json(poll);
+            var option = poll.options.find(function(el) {
+                return el.id == req.params.optionId;
+            });
+            option.votes++;
+
+            user.save(function(err, user) {
+                if (err) throw err;
+                res.json(poll);
+            });
+        });
+    } else {
+        res.status(500).send('Invalid Poll ID');
+    }
 };
 
 module.exports = {
     addPoll: addPoll,
     getPolls: getPolls,
-    getPoll: getPoll 
+    getPoll: getPoll,
+    incrementVote: incrementVote 
 };

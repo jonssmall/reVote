@@ -62,5 +62,8 @@ module.exports = function (app, passport) {
         .post(isLoggedIn, pollAccess.addPoll);
 
     app.route('/api/polls/:id')
-        .get(pollAccess.getPoll);        
+        .get(pollAccess.getPoll);
+
+    app.route('/api/polls/:pollId/options/:optionId')
+        .get(pollAccess.incrementVote);   
 };

@@ -22,7 +22,8 @@ function Poll(props) {
 var PollContainer = React.createClass({
     getInitialState: function () {
         return {
-            poll: null
+            poll: null,
+            userVoted: false
         }
     },
     componentDidMount: function() {
@@ -34,26 +35,22 @@ var PollContainer = React.createClass({
     callPoll: function(id) {
         api.getPoll(id)
         .then(result => {
-            console.log(result);        
-            this.setState({
-                poll: result ? result.data : undefined
-            });
+            if(result && result.data) {
+                this.setState({
+                    poll: result.data
+                });
+            }            
         });
     },
-    handleVote: function(id, e) {   
-        // var newPoll = this.state.poll;
-        // var newOptions = newPoll.options;
-        // newOptions.map(function(option) {
-        //     if (option._id == id) option.votes++;
-        // });        
-        // newPoll.options = newOptions;
+    handleVote: function(id, e) {           
         api.incrementVote(this.state.poll._id, id)
-        .then(result => {
-            console.log(result);
+        .then(result => {            
             if (result.data) {
                 this.setState({
                     poll: result.data
                 });
+            } else {
+                console.log(result);
             }
         });        
     },

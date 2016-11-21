@@ -47,34 +47,50 @@ function getPoll (req, res) {
             res.json(poll);
         });
     } else {
-        res.status(500).send('Invalid Poll ID');
+        res.status(404).send('Invalid Poll ID');
     }
 };
 
 function incrementVote (req, res) {
     // req.params.pollId, req.params.optionId
     if(req.params.pollId.match(/^[0-9a-fA-F]{24}$/)) {
+        console.log(`Incoming IP: ${req.ip}`);
         Users.findOne({'polls': {$elemMatch: {_id: req.params.pollId}}}, function (err, user) {
-            if (err) throw err;        
-            //redundancy is a side effect of nesting polls directly in User schema.
+            if (err) throw err;                    
             var poll = user.polls.find(function(el) {
                 return el.id == req.params.pollId;
-            });
-            //res.json(poll);
-            var option = poll.options.find(function(el) {
-                return el.id == req.params.optionId;
-            });
-            option.votes++;
+            });     
 
-            user.save(function(err, user) {
-                if (err) throw err;
-                res.json(poll);
-            });
+            if(!existingVoter(req, poll.voters)) {
+                var option = poll.options.find(function(el) {
+                    return el.id == req.params.optionId;
+                });
+                option.votes++;
+
+                var newVoter = {};
+                newVoter.userId = req.session.passport ? req.session.passport.user : 'anonymous';
+                newVoter.ipAddress = req.ip;
+                poll.voters.push(newVoter);
+
+                user.save(function(err, user) {
+                    if (err) throw err;
+                    res.json(poll);
+                });
+            } else {
+                res.status(400).send('Error: duplicate voter');
+            }            
         });
     } else {
-        res.status(500).send('Invalid Poll ID');
+        res.status(400).send('Invalid Poll ID');
     }
 };
+
+function existingVoter(req, votersArray) {
+    var user = req.session.passport ? req.session.passport.user : undefined;
+    return votersArray.some(function(voter) {
+        return (voter.userId == user || voter.ipAddress == req.ip); 
+    });
+}
 
 module.exports = {
     addPoll: addPoll,

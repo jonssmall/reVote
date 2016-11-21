@@ -34,10 +34,10 @@ function deletePoll() {
 
 function incrementVote (pollId, optionId) {      
     return axios.get(`/api/polls/${pollId}/options/${optionId}`)
-        .then(response => {
+        .then(response => {            
             return response
-        }).catch(error => {
-            console.log(error);
+        }).catch(error => {            
+            return error.response.data;
         });
 }
 

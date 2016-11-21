@@ -28,6 +28,8 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
+app.set('trust proxy', true);
+
 routes(app, passport);
 
 var port = process.env.PORT || 8080;

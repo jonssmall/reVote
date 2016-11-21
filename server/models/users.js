@@ -14,7 +14,7 @@ var User = new Schema({
         title:  String,
 	    author: String,	
 	    options: [{ body: String, votes: Number }],
-	    voters: [{ username: String, ipAddress: String }]
+	    voters: [{ userId: String, ipAddress: String }]
     }]
 });
 

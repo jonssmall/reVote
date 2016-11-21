@@ -22,13 +22,15 @@ var ProfileContainer = React.createClass({
                 }
             });         
     },
-    handleDelete: function(id, e) {        
-        api.deletePoll(id)
-        .then(result => {
-            this.setState({
-                polls: result.data
-            });    
-        });
+    handleDelete: function(id, e) {
+        if(confirm("Are you sure you want to delete this poll?")) {
+            api.deletePoll(id)
+            .then(result => {
+                this.setState({
+                    polls: result.data
+                });    
+            });
+        }              
     },
     render: function () {        
         return (

@@ -24,8 +24,7 @@ var Main = React.createClass({
             signedOn: false,            
         }
     },
-    componentDidMount: function() {
-        console.log('booting up');
+    componentDidMount: function() {        
         auth.isSignedOn()
             .then(result => {
                 if(result.data) {

@@ -15,8 +15,7 @@ var NewPollContainer = require('../containers/NewPollContainer');
 
 function requireAuth (nextState, replace, callback) {
     auth.isSignedOn()
-        .then(result => {
-            console.log(result); 
+        .then(result => {            
             if(!result.data) {
                 console.log('not logged in');
                 replace({

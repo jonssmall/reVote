@@ -41,8 +41,8 @@ function getPoll (req, res) {
         Users.findOne({'polls': {$elemMatch: {_id: req.params.id}}}, function (err, user) {
             if (err) throw err;        
             //redundancy is a side effect of nesting polls directly in User schema.
-            var poll = user.polls.find(function(el) {
-                return el.id == req.params.id
+            var poll = user.polls.find(function(poll) {
+                return poll.id == req.params.id
             });
             res.json(poll);
         });
@@ -51,19 +51,36 @@ function getPoll (req, res) {
     }
 };
 
+function deletePoll (req, res) {
+    if(req.params.id.match(/^[0-9a-fA-F]{24}$/)) {
+        Users.findOne({'polls': {$elemMatch: {_id: req.params.id}}}, function (err, user) {
+            if (err) throw err;                                
+            user.polls = user.polls.filter(function(poll) {
+                return poll.id != req.params.id;
+            });
+            user.save(function (err, updatedUser) {
+                if (err) throw err;
+                res.send(updatedUser.polls);
+            });
+        });
+    } else {
+        res.status(404).send('Invalid Poll ID');
+    }
+}
+
 function incrementVote (req, res) {
     // req.params.pollId, req.params.optionId
     if(req.params.pollId.match(/^[0-9a-fA-F]{24}$/)) {
         console.log(`Incoming IP: ${req.ip}`);
         Users.findOne({'polls': {$elemMatch: {_id: req.params.pollId}}}, function (err, user) {
             if (err) throw err;                    
-            var poll = user.polls.find(function(el) {
-                return el.id == req.params.pollId;
+            var poll = user.polls.find(function(poll) {
+                return poll.id == req.params.pollId;
             });     
 
             if(!existingVoter(req, poll.voters)) {
-                var option = poll.options.find(function(el) {
-                    return el.id == req.params.optionId;
+                var option = poll.options.find(function(option) {
+                    return option.id == req.params.optionId;
                 });
                 option.votes++;
 
@@ -96,5 +113,6 @@ module.exports = {
     addPoll: addPoll,
     getPolls: getPolls,
     getPoll: getPoll,
+    deletePoll: deletePoll,
     incrementVote: incrementVote 
 };

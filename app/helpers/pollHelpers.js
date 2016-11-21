@@ -28,8 +28,13 @@ function createPoll (pollObject) {
         });
 }
 
-function deletePoll() {
-    //todo
+function deletePoll (id) {
+    return axios.delete(`/api/polls/${id}`)
+        .then(response => {
+            return response
+        }).catch(error => {
+            console.log(error);
+        });
 }
 
 function incrementVote (pollId, optionId) {      
@@ -45,5 +50,6 @@ module.exports = {
     getPolls: getPolls,
     getPoll: getPoll,
     createPoll: createPoll,
+    deletePoll: deletePoll,
     incrementVote: incrementVote
 };

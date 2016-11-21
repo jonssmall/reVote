@@ -9,13 +9,7 @@ function isSignedOn () {
         });    
 }
 
-function getUser () {
-    // response.data = {
-    //     displayName: "Jon",
-    //     id: "123456",
-    //     publicRepos: 73,
-    //     username: "jonssmall"
-    // };
+function getUser () {    
     return axios.get('/profile')
         .then(response => {
             return response

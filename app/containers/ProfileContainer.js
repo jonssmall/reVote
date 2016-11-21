@@ -1,31 +1,39 @@
 var React = require('react');
 var Profile = require('../components/Profile');
 var auth = require('../helpers/authHelpers');
+var api = require('../helpers/pollHelpers');
 
 var ProfileContainer = React.createClass({
     getInitialState: function() {
-        return {                
+        return {
+            user: undefined,
+            polls: undefined
         }
     },    
     componentDidMount: function() {   
         auth.getUser()
-            .then(result => {
-                console.log(result);
+            .then(result => {                           
                 if(result.data) {
-                    let user = result.data
+                    let user = result.data.github
                     this.setState({
-                        displayName: user.displayName,
-                        id: user.id,
-                        publicRepos: user.publicRepos,
-                        username: user.username
-                    });
+                        user: user,
+                        polls: result.data.polls
+                    });                    
                 }
-            });      
+            });         
     },
-    render: function () {
+    handleDelete: function(id, e) {        
+        api.deletePoll(id)
+        .then(result => {
+            this.setState({
+                polls: result.data
+            });    
+        });
+    },
+    render: function () {        
         return (
             <div>                
-                <Profile displayName={this.state.displayName} />
+                <Profile user={this.state.user} polls={this.state.polls} delete={this.handleDelete} />
             </div>
         )
     }

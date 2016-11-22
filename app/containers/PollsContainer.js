@@ -9,7 +9,7 @@ var PollsContainer = React.createClass({
         }
     },
     componentDidMount: function() {
-        if(!this.props.children) {
+        if(!this.props.children) {            
             api.getPolls()
             .then(result => {
                 console.log(result);
@@ -21,10 +21,13 @@ var PollsContainer = React.createClass({
             });
         }                    
     },
+    //spaghettiesque, how to refactor
+    makeChildObj: function() {
+        return React.cloneElement(this.props.children, {signedOn: this.props.signedOn});
+    },
     render: function () {
-        return ( //how to prevent redundant /api/polls calls
-            this.props.children || <Polls pollsData={this.state.polls} />                    
-        )
+        var guts = this.props.children ? this.makeChildObj() : <Polls pollsData={this.state.polls} />                  
+        return guts;                        
     }
 });
 

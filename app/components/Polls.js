@@ -10,11 +10,12 @@ function Polls (props) {
         );
     });
     
+    //todo: hide new poll link now that signedOn is a child prop.
     return (
         <div>
             <h1>Polls</h1>
             {pollsArray}
-            <br/>
+            <br/>        
             <Link to="/polls/new">New Poll</Link>
         </div>
     )

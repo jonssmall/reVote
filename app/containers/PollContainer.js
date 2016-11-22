@@ -2,6 +2,11 @@ var React = require('react');
 var api = require('../helpers/pollHelpers');
 
 function Poll(props) {
+    console.log(props);
+    let newOption = null;
+    if (props.signedOn) {
+        newOption = <h1>NEW OPTION</h1>;
+    }
     let poll = props.pollData;
     let options = poll.options.map(function(option) {
         return (
@@ -15,8 +20,9 @@ function Poll(props) {
         <div>
             <h1>{poll.title}</h1>
             {options}
+            {newOption}                
         </div>
-    );    
+    );
 }
 
 var PollContainer = React.createClass({
@@ -54,8 +60,8 @@ var PollContainer = React.createClass({
             }
         });        
     },
-    render: function () {
-        return this.state.poll? <Poll vote={this.handleVote} pollData={this.state.poll}/> : <p>Poll Not Found </p>;
+    render: function () {        
+        return this.state.poll? <Poll signedOn={this.props.signedOn} vote={this.handleVote} pollData={this.state.poll}/> : <p>Poll Not Found </p>;
     }
 });
 

@@ -34,7 +34,7 @@ var ProfileContainer = React.createClass({
     },
     render: function () {        
         return (
-            <div>                
+            <div>
                 <Profile user={this.state.user} polls={this.state.polls} delete={this.handleDelete} />
             </div>
         )

@@ -66,6 +66,7 @@ var NewPollContainer = React.createClass({
             }
         }
     },
+    //todo: validate against empty options, allow user to delete >2 options
     handleSubmit: function(e) {
         e.preventDefault();
         api.createPoll(this.state)

@@ -59,7 +59,9 @@ var Main = React.createClass({
             </div>
             <main className="mdl-layout__content">
                 <div className="page-content">
-                    {this.props.children}
+                    {React.cloneElement(this.props.children, {
+                        signedOn: this.state.signedOn
+                    })}
                 </div>
             </main>
         </div>

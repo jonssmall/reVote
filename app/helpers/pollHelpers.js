@@ -55,11 +55,22 @@ function newOption (pollId, optionText) {
         });
 }
 
+function didVote(pollId) {
+    console.log("calling endpoint");
+    return axios.get(`/api/polls/${pollId}/didVote`)
+        .then(response => {                    
+            return response
+        }).catch(error => {            
+            return error.response.data;
+        });
+}
+
 module.exports = {
     getPolls: getPolls,
     getPoll: getPoll,
     createPoll: createPoll,
     deletePoll: deletePoll,
     incrementVote: incrementVote,
-    newOption: newOption
+    newOption: newOption,
+    didVote: didVote
 };

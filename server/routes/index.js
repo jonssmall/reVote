@@ -70,4 +70,8 @@ module.exports = function (app, passport) {
 
     app.route('/api/polls/:pollId/options/new/:optionText')
         .get(pollAccess.submitNewOption);   
+
+    app.route('/api/polls/:pollId/didVote')
+        .get(pollAccess.didVote);   
+
 };

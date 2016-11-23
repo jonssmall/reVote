@@ -137,6 +137,20 @@ function submitNewOption (req, res) {
     }
 };
 
+function didVote (req, res) {
+    if(req.params.pollId.match(/^[0-9a-fA-F]{24}$/)) {    
+        Users.findOne({'polls': {$elemMatch: {_id: req.params.pollId}}}, function (err, user) {
+            if (err) throw err;                    
+            var poll = user.polls.find(function(poll) {
+                return poll.id == req.params.pollId;
+            });
+            res.json(existingVoter(req, poll.voters));            
+        });
+    } else {
+        res.status(400).send('Invalid Poll ID');
+    }
+};
+
 function existingVoter(req, votersArray) {
     var user = req.session.passport ? req.session.passport.user : undefined;
     return votersArray.some(function(voter) {
@@ -150,5 +164,6 @@ module.exports = {
     getPoll: getPoll,
     deletePoll: deletePoll,
     incrementVote: incrementVote,
-    submitNewOption: submitNewOption 
+    submitNewOption: submitNewOption,
+    didVote: didVote 
 };

@@ -20,7 +20,7 @@ var ProfileContainer = React.createClass({
                         polls: result.data.polls
                     });                    
                 }
-            });         
+            });
     },
     handleDelete: function(id, e) {
         if(confirm("Are you sure you want to delete this poll?")) {

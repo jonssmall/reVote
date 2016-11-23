@@ -1,8 +1,9 @@
 var React = require('react');
 var api = require('../helpers/pollHelpers');
 
-function Poll(props) {    
+function Poll(props) {        
     let newOption = null;
+    let votedToggle = null;        
     if (props.signedOn) {
         newOption = (
             <div>
@@ -10,6 +11,13 @@ function Poll(props) {
                         value={props.newOption}                         
                         type="text" />
                 <button onClick={props.submitNewOption.bind(null, props.newOption)}>New Option</button>
+            </div>
+        )
+    }
+    if (props.alreadyVoted) {
+        votedToggle = (
+            <div>
+                <h1>VOTED DUDE</h1>
             </div>
         )
     }
@@ -26,7 +34,8 @@ function Poll(props) {
         <div>
             <h1>{poll.title}</h1>
             {options}
-            {newOption}                
+            {newOption}
+            {votedToggle}             
         </div>
     );
 }
@@ -36,17 +45,19 @@ var PollContainer = React.createClass({
         return {
             poll: null,
             userVoted: false,
-            newOption: ''
+            newOption: ''            
         }
     },
     componentDidMount: function() {
         this.callPoll(this.props.routeParams.id);
+        this.checkIfVoter(this.props.routeParams.id);
     },
     componentWillReceiveProps: function(nextprops) {                
         this.callPoll(nextprops.routeParams.id);
+        this.checkIfVoter(this.props.routeParams.id);
     },
-    callPoll: function(id) {
-        api.getPoll(id)
+    callPoll: function(pollId) {
+        api.getPoll(pollId)
         .then(result => {
             if(result && result.data) {
                 this.setState({
@@ -55,12 +66,23 @@ var PollContainer = React.createClass({
             }            
         });
     },
+    checkIfVoter: function(pollId) {        
+        api.didVote(pollId)
+        .then(result => {
+            if(result.data) {
+                this.setState({
+                    userVoted: result.data
+                });
+            }        
+        });
+    },
     handleVote: function(id, e) {           
         api.incrementVote(this.state.poll._id, id)
         .then(result => {            
             if (result.data) {
                 this.setState({
-                    poll: result.data
+                    poll: result.data,
+                    userVoted: true
                 });
             } else {
                 console.log(result);
@@ -77,7 +99,8 @@ var PollContainer = React.createClass({
         .then(result => {
             if (result.data) {
                 this.setState({
-                    poll: result.data
+                    poll: result.data,
+                    userVoted: true
                 });
             } else {
                 console.log(result);
@@ -88,6 +111,7 @@ var PollContainer = React.createClass({
         var output;
         if(this.state.poll) {
             output = <Poll newOption={this.state.newOption}
+                            alreadyVoted={this.state.userVoted}
                             submitNewOption={this.submitNewOption}
                             updateNewOption={this.updateNewOption} 
                             signedOn={this.props.signedOn} 

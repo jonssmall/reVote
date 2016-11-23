@@ -102,17 +102,53 @@ function incrementVote (req, res) {
     }
 };
 
+//todo: not terribly dry relative to incrementVote. how to extract common code?
+function submitNewOption (req, res) {
+    // req.params.pollId, req.params.optionText
+    if(req.params.pollId.match(/^[0-9a-fA-F]{24}$/)) {        
+        Users.findOne({'polls': {$elemMatch: {_id: req.params.pollId}}}, function (err, user) {
+            if (err) throw err;                    
+            var poll = user.polls.find(function(poll) {
+                return poll.id == req.params.pollId;
+            });     
+
+            if(!existingVoter(req, poll.voters)) {
+                var newOption = {
+                    body: req.params.optionText,
+                    votes: 1
+                };
+                poll.options.push(newOption);
+
+                var newVoter = {};
+                newVoter.userId = req.session.passport ? req.session.passport.user : 'anonymous';
+                newVoter.ipAddress = req.ip;
+                poll.voters.push(newVoter);
+
+                user.save(function(err, user) {
+                    if (err) throw err;
+                    res.json(poll);
+                });
+            } else {
+                res.status(400).send('Error: duplicate voter');
+            }            
+        });
+    } else {
+        res.status(400).send('Invalid Poll ID');
+    }
+};
+
 function existingVoter(req, votersArray) {
     var user = req.session.passport ? req.session.passport.user : undefined;
     return votersArray.some(function(voter) {
         return (voter.userId == user || voter.ipAddress == req.ip); 
     });
-}
+};
 
 module.exports = {
     addPoll: addPoll,
     getPolls: getPolls,
     getPoll: getPoll,
     deletePoll: deletePoll,
-    incrementVote: incrementVote 
+    incrementVote: incrementVote,
+    submitNewOption: submitNewOption 
 };

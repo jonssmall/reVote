@@ -1,11 +1,17 @@
 var React = require('react');
 var api = require('../helpers/pollHelpers');
 
-function Poll(props) {
-    console.log(props);
+function Poll(props) {    
     let newOption = null;
     if (props.signedOn) {
-        newOption = <h1>NEW OPTION</h1>;
+        newOption = (
+            <div>
+                <input  onChange={props.updateNewOption}
+                        value={props.newOption}                         
+                        type="text" />
+                <button onClick={props.submitNewOption.bind(null, props.newOption)}>New Option</button>
+            </div>
+        )
     }
     let poll = props.pollData;
     let options = poll.options.map(function(option) {
@@ -25,11 +31,12 @@ function Poll(props) {
     );
 }
 
-var PollContainer = React.createClass({
+var PollContainer = React.createClass({    
     getInitialState: function () {
         return {
             poll: null,
-            userVoted: false
+            userVoted: false,
+            newOption: ''
         }
     },
     componentDidMount: function() {
@@ -60,8 +67,36 @@ var PollContainer = React.createClass({
             }
         });        
     },
-    render: function () {        
-        return this.state.poll? <Poll signedOn={this.props.signedOn} vote={this.handleVote} pollData={this.state.poll}/> : <p>Poll Not Found </p>;
+    updateNewOption: function(e) {        
+        this.setState({
+            newOption: e.target.value
+        });        
+    },
+    submitNewOption: function(value, e) {
+        api.newOption(this.state.poll._id, value)
+        .then(result => {
+            if (result.data) {
+                this.setState({
+                    poll: result.data
+                });
+            } else {
+                console.log(result);
+            }
+        });
+    },
+    render: function () {
+        var output;
+        if(this.state.poll) {
+            output = <Poll newOption={this.state.newOption}
+                            submitNewOption={this.submitNewOption}
+                            updateNewOption={this.updateNewOption} 
+                            signedOn={this.props.signedOn} 
+                            vote={this.handleVote} 
+                            pollData={this.state.poll}/>;
+        } else {
+            output = <p>Poll Not Found </p>;
+        }
+        return output;
     }
 });
 

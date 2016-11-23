@@ -46,10 +46,20 @@ function incrementVote (pollId, optionId) {
         });
 }
 
+function newOption (pollId, optionText) {      
+    return axios.get(`/api/polls/${pollId}/options/new/${optionText}`)
+        .then(response => {            
+            return response
+        }).catch(error => {            
+            return error.response.data;
+        });
+}
+
 module.exports = {
     getPolls: getPolls,
     getPoll: getPoll,
     createPoll: createPoll,
     deletePoll: deletePoll,
-    incrementVote: incrementVote
+    incrementVote: incrementVote,
+    newOption: newOption
 };

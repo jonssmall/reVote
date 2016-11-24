@@ -2,8 +2,8 @@ var React = require('react');
 var Link = require('react-router').Link;
 var auth = require('../helpers/authHelpers');
 
-function Login (props) {
-    const Login = <a className="mdl-navigation__link" href="/auth/github">Login</a>;        
+function Login (props) {            
+    const Login = <a className="mdl-navigation__link" href={`/auth/github?target=${props.path.substring(1)}`}>Login</a>;        
     const Logout = <a className="mdl-navigation__link" href="/logout">Logout</a>;
     return props.signedOn ? Logout : Login; 
 }
@@ -26,15 +26,15 @@ var Main = React.createClass({
     },
     componentDidMount: function() {        
         auth.isSignedOn()
-            .then(result => {
-                if(result.data) {
-                    this.setState({
-                        signedOn: result.data
-                    });
-                }
-            });    
+        .then(result => {
+            if(result.data) {
+                this.setState({
+                    signedOn: result.data
+                });
+            }
+        });    
     },
-    render: function () {
+    render: function () {        
         return (
         <div className="mdl-layout mdl-js-layout mdl-layout--fixed-header">
             <header className="mdl-layout__header">
@@ -43,7 +43,7 @@ var Main = React.createClass({
                     <div className="mdl-layout-spacer"></div>      
                     <nav className="mdl-navigation mdl-layout--large-screen-only">
                         <Polls />
-                        <Login signedOn={this.state.signedOn}/>
+                        <Login path={this.props.location.pathname} signedOn={this.state.signedOn}/>
                         <Profile signedOn={this.state.signedOn}/>                                                
                     </nav>
                 </div>

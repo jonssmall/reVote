@@ -43,7 +43,7 @@ module.exports = function (app, passport) {
 		.get(function(req, res) {
             //forwarding unauthorized user to intended view
             //how to limit this to a single user's auth flow rather than server global?
-            if (req.query.target) app.locals.target = req.query.target
+            if (req.query.target) app.locals.target = req.query.target;            
             passport.authenticate('github')(req, res);
         });                    
 

@@ -1,0 +1,6 @@
+1. Redirect back where you came from
+2. Material Design Pie Charts
+3. Hide buttons for unauthenticated / already voted poll view
+4. Style using MD cards
+6. Smart use of MD toast for error messages rather than non-response / console message.
+7. Why does style stop working now and then?

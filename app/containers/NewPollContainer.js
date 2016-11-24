@@ -88,15 +88,15 @@ var NewPollContainer = React.createClass({
             });
         }              
     },
-    handleNewOption: function() {
+    handleNewOption: function(e) {
+        e.preventDefault();
         let newOptions = this.state.options;
         let counter = Object.keys(newOptions).length;
         counter++;        
-        newOptions[`Option${counter}`] = '';
-        console.log(newOptions);
+        newOptions[`Option${counter}`] = '';    
         this.setState({
             options: newOptions
-        });
+        });        
     }, 
     render: function () {
         return <NewPoll 

@@ -3,8 +3,8 @@ var api = require('../helpers/pollHelpers');
 
 function Poll(props) {        
     let newOption = null;
-    let votedToggle = null;        
-    if (props.signedOn) {
+    let votedToggle = null;    
+    if (props.signedOn && !props.alreadyVoted) {
         newOption = (
             <div>
                 <input  onChange={props.updateNewOption}
@@ -13,20 +13,14 @@ function Poll(props) {
                 <button onClick={props.submitNewOption.bind(null, props.newOption)}>New Option</button>
             </div>
         )
-    }
-    if (props.alreadyVoted) {
-        votedToggle = (
-            <div>
-                <h1>VOTED DUDE</h1>
-            </div>
-        )
-    }
+    }    
     let poll = props.pollData;
     let options = poll.options.map(function(option) {
+        let voteButton = poll.alreadyVoted ? <button onClick={props.vote.bind(null, option._id)}> Vote </button> : null;
         return (
             <div key={option._id}>
                 {option.body} : {option.votes}
-                <button onClick={props.vote.bind(null, option._id)}> Vote </button>
+                {voteButton}
             </div>
         );
     });
@@ -48,14 +42,11 @@ var PollContainer = React.createClass({
             newOption: ''            
         }
     },
-    componentDidMount: function() {
+    componentWillMount: function() {
+        console.log("willMount");
         this.callPoll(this.props.routeParams.id);
         this.checkIfVoter(this.props.routeParams.id);
-    },
-    componentWillReceiveProps: function(nextprops) {                
-        this.callPoll(nextprops.routeParams.id);
-        this.checkIfVoter(this.props.routeParams.id);
-    },
+    },    
     callPoll: function(pollId) {
         api.getPoll(pollId)
         .then(result => {
@@ -108,6 +99,7 @@ var PollContainer = React.createClass({
         });
     },
     render: function () {
+        console.log('signedOn ' + this.props.signedOn);        
         var output;
         if(this.state.poll) {
             output = <Poll newOption={this.state.newOption}

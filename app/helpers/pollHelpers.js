@@ -11,12 +11,17 @@ function getPolls () {
 
 //  /api/polls/58295aa650e052443f42914a
 function getPoll (id) {      
-    return axios.get(`/api/polls/${id}`)
-        .then(response => {
-            return response
-        }).catch(error => {
-            console.log(error);
-        });
+    return axios.all([
+        axios.get(`/api/polls/${id}`),
+        axios.get(`/api/polls/${id}/didVote`)
+    ]).then(axios.spread(function (poll, voted) {        
+        return {
+            poll: poll.data,
+            voted: voted.data
+        }
+    })).catch(error => {
+        console.log(error);
+    })                
 }
 
 function createPoll (pollObject) {

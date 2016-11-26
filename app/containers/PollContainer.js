@@ -42,31 +42,20 @@ var PollContainer = React.createClass({
             newOption: ''            
         }
     },
-    componentWillMount: function() {
-        console.log("willMount");
-        this.callPoll(this.props.routeParams.id);
-        this.checkIfVoter(this.props.routeParams.id);
+    componentWillMount: function() {        
+        this.callPoll(this.props.routeParams.id);        
     },    
     callPoll: function(pollId) {
         api.getPoll(pollId)
         .then(result => {
-            if(result && result.data) {
+            if(result) {
                 this.setState({
-                    poll: result.data
+                    poll: result.poll,
+                    userVoted: result.voted
                 });
             }            
         });
-    },
-    checkIfVoter: function(pollId) {        
-        api.didVote(pollId)
-        .then(result => {
-            if(result.data) {
-                this.setState({
-                    userVoted: result.data
-                });
-            }        
-        });
-    },
+    },    
     handleVote: function(id, e) {           
         api.incrementVote(this.state.poll._id, id)
         .then(result => {            
@@ -98,8 +87,7 @@ var PollContainer = React.createClass({
             }
         });
     },
-    render: function () {
-        console.log('signedOn ' + this.props.signedOn);        
+    render: function () {          
         var output;
         if(this.state.poll) {
             output = <Poll newOption={this.state.newOption}

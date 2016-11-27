@@ -2,4 +2,3 @@
 4. Style using MD cards
 6. Smart use of MD toast for error messages rather than non-response / console message.
 7. Why does style stop working now and then?
-8. Flickering elements during ajax state re-render

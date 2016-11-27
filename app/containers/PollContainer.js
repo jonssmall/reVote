@@ -87,8 +87,8 @@ var PollContainer = React.createClass({
             }
         });
     },
-    render: function () {          
-        var output;
+    render: function () {                  
+        var output = null;
         if(this.state.poll) {
             output = <Poll newOption={this.state.newOption}
                             alreadyVoted={this.state.userVoted}
@@ -97,9 +97,7 @@ var PollContainer = React.createClass({
                             signedOn={this.props.signedOn} 
                             vote={this.handleVote} 
                             pollData={this.state.poll}/>;
-        } else {
-            output = <p>Poll Not Found </p>;
-        }
+        } //else loading spinner?
         return output;
     }
 });

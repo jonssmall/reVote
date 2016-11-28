@@ -10,7 +10,15 @@
     <script defer src="https://code.getmdl.io/1.2.1/material.min.js"></script>
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 </head>
-<body>
+<body onload="setIntervalSyncMDL()">
     <div id="app"></div>
+    <script>
+        function setIntervalSyncMDL() {
+            setInterval("syncMDL();", 1);
+        }
+        function syncMDL() {        
+            componentHandler.upgradeDom();
+        }
+    </script>
     <script type="text/javascript" src="/app/index.js" charset="utf-8"></script>
 </html>

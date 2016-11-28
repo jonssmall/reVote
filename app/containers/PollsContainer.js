@@ -11,27 +11,21 @@ var PollsContainer = React.createClass({
     componentDidMount: function() {
         this.getPolls();             
     },
-    componentDidUpdate: function() {
-        this.getPolls();
-    },
-    getPolls: function() {
-        if(!this.props.children) {            
-            api.getPolls()
-            .then(result => {
-                console.log(result);
-                if(result.data) {
-                    this.setState({
-                        polls: result.data
-                    });
-                }
-            });
-        }
-    },
-    //spaghettiesque, how to refactor
+    //Inefficiency in edge case: direct nav to /polls/id or /polls/new makes unecessary api call.
+    getPolls: function() {                 
+        api.getPolls()
+        .then(result => {            
+            if(result.data) {
+                this.setState({
+                    polls: result.data
+                });
+            }
+        });
+    },    
     makeChildObj: function() {
         return React.cloneElement(this.props.children, {signedOn: this.props.signedOn});
     },
-    render: function () {        
+    render: function () {     
         var guts = this.props.children ? this.makeChildObj() : <Polls pollsData={this.state.polls} />                  
         return guts;                        
     }

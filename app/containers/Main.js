@@ -34,7 +34,7 @@ var Main = React.createClass({
             }
         });    
     },
-    render: function () {        
+    render: function () {             
         return (
         <div className="mdl-layout mdl-js-layout mdl-layout--fixed-header">
             <header className="mdl-layout__header">

@@ -9,6 +9,12 @@ var PollsContainer = React.createClass({
         }
     },
     componentDidMount: function() {
+        this.getPolls();             
+    },
+    componentDidUpdate: function() {
+        this.getPolls();
+    },
+    getPolls: function() {
         if(!this.props.children) {            
             api.getPolls()
             .then(result => {
@@ -19,7 +25,7 @@ var PollsContainer = React.createClass({
                     });
                 }
             });
-        }                    
+        }
     },
     //spaghettiesque, how to refactor
     makeChildObj: function() {

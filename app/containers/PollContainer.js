@@ -120,7 +120,7 @@ var PollContainer = React.createClass({
                             signedOn={this.props.signedOn} 
                             vote={this.handleVote} 
                             pollData={this.state.poll}/>
-                    <div id="poll-chart"></div>
+                    <div id="poll-chart" style={{width:'500px'}}></div>
                 </div>
             );
         } //else loading spinner?

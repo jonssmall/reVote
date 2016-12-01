@@ -32,7 +32,11 @@ var Main = React.createClass({
                     signedOn: result.data
                 });
             }
-        });    
+        });        
+    },
+    componentDidUpdate: function() {        
+        var layout = document.querySelector('.mdl-layout');        
+        layout.MaterialLayout.toggleDrawer();
     },
     render: function () {             
         return (
@@ -50,11 +54,10 @@ var Main = React.createClass({
             </header>
             <div className="mdl-layout__drawer">
                 <span className="mdl-layout-title">Title</span>
-                <nav className="mdl-navigation">
-                    <a className="mdl-navigation__link" href="">Link</a>
-                    <a className="mdl-navigation__link" href="">Link</a>
-                    <a className="mdl-navigation__link" href="">Link</a>
-                    <a className="mdl-navigation__link" href="">Link</a>
+                <nav className="mdl-navigation">                    
+                    <Polls />
+                    <Login path={this.props.location.pathname} signedOn={this.state.signedOn}/>
+                    <Profile signedOn={this.state.signedOn}/>                    
                 </nav>
             </div>
             <main className="mdl-layout__content">

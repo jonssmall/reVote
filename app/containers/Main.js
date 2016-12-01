@@ -35,8 +35,11 @@ var Main = React.createClass({
         });        
     },
     componentDidUpdate: function() {        
-        var layout = document.querySelector('.mdl-layout');        
-        layout.MaterialLayout.toggleDrawer();
+        var layout = document.querySelector('.mdl-layout');
+        var drawer = document.querySelector('.mdl-layout__drawer');
+        if(drawer.classList.contains('is-visible')) {
+            layout.MaterialLayout.toggleDrawer();
+        }        
     },
     render: function () {             
         return (

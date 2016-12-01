@@ -12,7 +12,7 @@ var router = express.Router({mergeParams: true});
 require('dotenv').load();
 require('./server/config/passport')(passport);
 
-mongoose.connect(process.env.MONGO_URI);
+mongoose.connect(process.env.MONGOLAB_URI || process.env.MONGO_URI);
 mongoose.Promise = global.Promise;
 
 app.use(bodyParser.json());

@@ -13,6 +13,8 @@
 <body onload="setIntervalSyncMDL()">
     <div id="app"></div>
     <script>
+        //Upgrades dynamically generated elements to MDL.
+        //Alternative would be including MDL upgrade function in React callbacks - not that easy.
         function setIntervalSyncMDL() {
             setInterval("syncMDL();", 1);
         }

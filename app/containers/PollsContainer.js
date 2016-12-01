@@ -25,8 +25,8 @@ var PollsContainer = React.createClass({
     makeChildObj: function() {
         return React.cloneElement(this.props.children, {signedOn: this.props.signedOn});
     },
-    render: function () {     
-        var guts = this.props.children ? this.makeChildObj() : <Polls pollsData={this.state.polls} />                  
+    render: function () {
+        var guts = this.props.children ? this.makeChildObj() : <Polls signedOn={this.props.signedOn} pollsData={this.state.polls} />                  
         return guts;                        
     }
 });

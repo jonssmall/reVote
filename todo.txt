@@ -1,3 +1,2 @@
 4. Style using MD cards
-6. Smart use of MD toast for error messages rather than non-response / console message.
-7. Why does style stop working now and then? Is setInterval my best option?..
+5. Form validation

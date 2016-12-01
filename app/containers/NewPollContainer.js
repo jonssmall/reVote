@@ -32,7 +32,7 @@ function NewPoll (props) {
                 <button onClick={props.onSubmit} className="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">
                     Create Poll
                 </button>                                       
-            </form>             
+            </form>       
         </div>
     )
 }

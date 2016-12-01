@@ -18,19 +18,32 @@ function requireAuth (nextState, replace, callback) {
         .then(result => {            
             if(!result.data) {
                 console.log('not logged in');
+                var snackbarContainer = document.querySelector('#unauth-snackbar');
+                var data = {message: 'Unauthorized - Please Login'};
+                snackbarContainer.MaterialSnackbar.showSnackbar(data);
+                console.log(nextState);
                 replace({
                     pathname: '/',
+                    //HOW TO GO BACK TO PREVIOUS VIEW ???
                     state: { nextPathname: nextState.location.pathname }
-                });
+                });                
             }
             callback();
         });
 }
 
+function reroute(nextState, replace, callback) {
+    replace({
+        pathname: '/polls/',        
+        state: { nextPathname: nextState.location.pathname }
+    });
+    callback(); 
+}
+
 var routes = (
   <Router history={hashHistory}>
     <Route path='/' component={Main}>        
-      <IndexRoute component={HomeContainer} />
+      <IndexRoute component={HomeContainer} onEnter={reroute} />
       <Route path='profile' component={ProfileContainer} onEnter={requireAuth}/>
       <Route path='polls' component={PollsContainer}>
         <Route path='new' component={NewPollContainer} onEnter={requireAuth} />

@@ -13,26 +13,30 @@ function NewPoll (props) {
             />
         );
     }
-    return (
-        <div>
-            <form>
-                <div className="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-                    <input 
-                        onChange={props.onUpdate.bind(null, 'title')}
-                        value={props.title}
-                        className="mdl-textfield__input" 
-                        type="text" 
-                        id="title" />
-                    <label className="mdl-textfield__label" htmlFor="title">Title</label>                    
-                </div>         
-                {options}
-                <button onClick={props.newOption} className="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">
-                    New Option
-                </button>
-                <button onClick={props.onSubmit} className="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">
-                    Create Poll
-                </button>                                       
-            </form>       
+    return (        
+        <div className="demo-container mdl-grid">
+            <div className="mdl-cell mdl-cell--2-col mdl-cell--hide-tablet mdl-cell--hide-phone"></div>
+            <div className="demo-content mdl-color--white mdl-shadow--4dp content mdl-color-text--grey-800 mdl-cell mdl-cell--8-col">
+                <form>
+                    <div className="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                        <input 
+                            onChange={props.onUpdate.bind(null, 'title')}
+                            value={props.title}
+                            className="mdl-textfield__input" 
+                            type="text" 
+                            id="title" />
+                        <label className="mdl-textfield__label" htmlFor="title">Title</label>                    
+                    </div>         
+                    {options}
+                    <button onClick={props.newOption} className="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">
+                        New Option
+                    </button>
+                    <button onClick={props.onSubmit} className="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">
+                        Create Poll
+                    </button>                                       
+                </form>
+            </div>                  
+            <div className="mdl-cell mdl-cell--2-col mdl-cell--hide-tablet mdl-cell--hide-phone"></div>
         </div>
     )
 }

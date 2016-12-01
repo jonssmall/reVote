@@ -3,9 +3,7 @@ var ReactDOM = require('react-dom');
 var api = require('../helpers/pollHelpers');
 
 function Poll(props) {        
-    let newOption = null;
-    let votedToggle = null;    
-
+    let newOption = null;    
     if (props.signedOn && !props.alreadyVoted) {
         newOption = (
             <div>
@@ -31,8 +29,7 @@ function Poll(props) {
         <div>
             <h1>{poll.title}</h1>
             {options}
-            {newOption}
-            {votedToggle}                   
+            {newOption}                      
         </div>        
     );
 }
@@ -112,16 +109,20 @@ var PollContainer = React.createClass({
         var output = null;
         if(this.state.poll) {
             output = (
-                <div>
-                    <Poll newOption={this.state.newOption}
+                <div className="demo-container mdl-grid">
+                    <div className="mdl-cell mdl-cell--2-col mdl-cell--hide-tablet mdl-cell--hide-phone"></div>
+                    <div className="demo-content mdl-color--white mdl-shadow--4dp content mdl-color-text--grey-800 mdl-cell mdl-cell--8-col">
+                        <Poll newOption={this.state.newOption}
                             alreadyVoted={this.state.userVoted}
                             submitNewOption={this.submitNewOption}
                             updateNewOption={this.updateNewOption} 
                             signedOn={this.props.signedOn} 
                             vote={this.handleVote} 
                             pollData={this.state.poll}/>
-                    <div id="poll-chart" style={{width:'500px'}}></div>
-                </div>
+                        <div id="poll-chart" style={{width:'inherit', height:'inherit'}}></div>
+                    </div>                  
+                    <div className="mdl-cell mdl-cell--2-col mdl-cell--hide-tablet mdl-cell--hide-phone"></div>
+                </div>                
             );
         } //else loading spinner?
         return output;
